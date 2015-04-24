@@ -1,2 +1,2 @@
-route_name:
-  controller: ControllerClassName:ActionName
+user_list:
+  controller: WebSite\Controller\UserController:listUserAction
