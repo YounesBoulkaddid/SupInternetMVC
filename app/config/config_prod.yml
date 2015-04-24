@@ -1,6 +1,6 @@
 doctrine:
   host: localhost
   database: phptd8
-  username: root
+  user: root
   password: root
   driver: pdo_mysql
