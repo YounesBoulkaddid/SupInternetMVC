@@ -7,7 +7,7 @@
  */
 
 namespace Website\Controller;
-
+use Symfony\Component\Yaml\Parser;
 /**
  * Class UserController
  *
@@ -22,19 +22,28 @@ class UserController {
      *
      * @return array
      */
-    public function listUserAction($request) {
-        //Use Doctrine DBAL here
+    public function listUserAction($request) {//Use Doctrine DBAL here
+/*****/
+$config = new \Doctrine\DBAL\Configuration();
+//for this array use config_dev.yml and YamlComponents
+// http://symfony.com/…/curr…/components/yaml/introduction.html
+        $yaml = new Parser();
+        $connectionParams = $yaml->parse(file_get_contents('/app/config/config_dev.yml'));
 
-        $users = ...
+        $conn = \Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
+// http://docs.doctrine-project.org/…/data-retrieval-and-manip…
+// it's much better if you use QueryBuilder : http://docs.doctrine-project.org/…/refer…/query-builder.html
+$statement = $conn->prepare('SELECT * FROM user');
+$statement->execute();
+$users = $statement->fetchAll();
+/******/
+//you can return a Response object
+return [
+'view' => 'WebSite/View/user/listUser.html.php', // should be Twig : 'WebSite/View/user/listUser.html.twig'
+'users' => $users
+];
 
-        //you can return a Response object
-        return [
-            'view' => 'WebSite/View/user/listUser.html.php', // should be Twig : 'WebSite/View/user/listUser.html.twig'
-            'users' => $users
-        ];
-    }
-
-
+}
     /**
      * swho one user thanks to his id : &id=...
      *
