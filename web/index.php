@@ -18,14 +18,9 @@ $yaml = new Parser();
 $routes = $yaml->parse(file_get_contents('../app/config/routing.yml'));
 if(isset($_GET['p'])) {
     $currentRoute = $routes[$_GET['p']]['controller'];
-    $routesArray = explode(':', $currentRoute);
-    var_dump($routesArray);
-//ControllerClassName, end name is ...Controller
-    $controller_class = $routesArray[0];
-
-//ActionName, end name is ...Action
-    $action_name = $routesArray[1];
-
+    list($controller_class,$action_name) = explode(':', $currentRoute);
+    echo $controller_class;
+    echo $action_name;
     $controller = new $controller_class();
 
 //$Request can by an object
