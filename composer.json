@@ -3,7 +3,8 @@
   "description": "Your Project",
   "autoload": {
     "psr-0": {"": [
-      "src/"
+      "src/",
+      "src/Model"
     ]}
   },
   "require": {
