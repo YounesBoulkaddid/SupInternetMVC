@@ -30,6 +30,7 @@ if(isset($_GET['p'])) {
 
 //$response can be an object
     $response = $controller->$action_name($request);
+    var_dump($response);
     /**
      * Use Twig !
      */

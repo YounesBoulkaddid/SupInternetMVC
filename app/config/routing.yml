@@ -7,8 +7,11 @@ user_show:
 user_add:
   controller: WebSite\Controller\UserController:addUserAction
 
-user_Delete:
+user_delete:
   controller: WebSite\Controller\UserController:deleteUserAction
 
 user_log:
   controller: WebSite\Controller\UserController:logUserAction
+
+user_logOut:
+  controller: WebSite\Controller\UserController:logOutAction
