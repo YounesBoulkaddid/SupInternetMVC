@@ -19,18 +19,17 @@ $routes = $yaml->parse(file_get_contents('../app/config/routing.yml'));
 if(isset($_GET['p'])) {
     $currentRoute = $routes[$_GET['p']]['controller'];
     list($controller_class,$action_name) = explode(':', $currentRoute);
-    echo $controller_class;
-    echo $action_name;
+    echo $controller_class.'<BR>';
     $controller = new $controller_class();
 
 //$Request can by an object
     $request['request'] = &$_POST;
     $request['query'] = &$_GET;
+    $request['session'] = &$_SESSION;
 //...
 
 //$response can be an object
     $response = $controller->$action_name($request);
-
     /**
      * Use Twig !
      */
