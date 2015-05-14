@@ -49,7 +49,7 @@ class UserController extends AbstractBaseController
         ];
     }
 
-    public function deleteUser($request)
+    public function deleteUserAction($request)
     {
         $userManager = new UserManager($this->getConnection());
         $userManager->showUser($request['request']['name']);

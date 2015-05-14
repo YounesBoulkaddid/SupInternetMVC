@@ -18,3 +18,15 @@ user_logOut:
 
 home:
   controller: WebSite\Controller\HomeController:showHomeAction
+
+product_list:
+  controller: WebSite\Controller\ProductController:listProductsAction
+
+product_show:
+  controller: WebSite\Controller\ProductController:showProductAction
+
+product_add:
+  controller: WebSite\Controller\ProductController:addProductAction
+
+product_delete:
+  controller: WebSite\Controller\ProductController:deleteProductAction
