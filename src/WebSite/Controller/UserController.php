@@ -11,14 +11,14 @@ class UserController extends AbstractBaseController
         $this->bdd = $this->getConnection();
     }
 
-    public function listUsersAction($request)
+    public function listUsersAction()
     {
 
         $userManager = new UserManager($this->getConnection());
-        $users = $userManager->ListUsers($request);
+        $users = $userManager->ListUsers();
 
         return [
-            'view' => '../src/WebSite/View/user/listUser.html.twig',
+            'view' => '../src/WebSite/View/user/listUser.html.php',
             'users' => $users
         ];
     }
@@ -26,10 +26,10 @@ class UserController extends AbstractBaseController
     public function showUserAction($request)
     {
         $userManager = new UserManager($this->getConnection());
-        $users = $userManager->showUser($request);
+        $users = $userManager->showUser($request['session']['id']);
 
         return [
-            'view' => '../src/WebSite/View/user/showUser.html.twig',
+            'view' => '../src/WebSite/View/user/showUser.html.php',
             'users' => $users
         ];
     }
@@ -38,21 +38,21 @@ class UserController extends AbstractBaseController
     {
         if ($request['request']) {
             $userManager = new UserManager($this->getConnection());
-            $userManager->showUser($request);
+            $userManager->showUser($request['request']['name'],$request['request']['password'], $request['request']['email'] );
             return [
                 'redirect_to' => 'index.php?p=user_list',
             ];
         }
 
         return [
-            'view' => '../src/WebSite/View/user/addUser.html.twig',
+            'view' => '../src/WebSite/View/user/addUser.html.php',
         ];
     }
 
     public function deleteUser($request)
     {
         $userManager = new UserManager($this->getConnection());
-        $userManager->showUser($request);
+        $userManager->showUser($request['request']['name']);
         return [
             'redirect_to' => 'index.php',
         ];
@@ -62,7 +62,7 @@ class UserController extends AbstractBaseController
     {
         if ($request['request']) {
             $userManager = new UserManager($this->getConnection());
-            $users = $userManager->logUser($request);
+            $users = $userManager->logUser($request['request']['name'],$request['request']['password'] );
             if ($users) {
                 $request['session']['user'] = $users;
             }

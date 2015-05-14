@@ -1,4 +1,7 @@
 <?php
+session_start();
+require_once __DIR__.'/../vendor/autoload.php';
+
 
 /**
  * This is you FrontController, the only point of access to your webapp
@@ -11,14 +14,24 @@
  *
  *
  */
-require_once __DIR__.'/../vendor/autoload.php';
+use Symfony\Component\Yaml\Yaml;
 
-use Symfony\Component\Yaml\Parser;
-$yaml = new Parser();
-$routes = $yaml->parse(file_get_contents('../app/config/routing.yml'));
-if(isset($_GET['p'])) {
-    $currentRoute = $routes[$_GET['p']]['controller'];
-    list($controller_class,$action_name) = explode(':', $currentRoute);
+
+
+
+    $routes = Yaml::parse(file_get_contents(__DIR__.'/../app/config/routing.yml'));
+    if(!empty($_GET['p'])){
+        $page = $_GET['p'];
+    } else {
+        $page = 'home'; //put your default route name here, can be user_list
+    }
+//check if controller config exits in routing.yml
+    if (!empty($routes[$page]['controller'])) {
+        list($controller_class,$action_name) = explode(':', $routes[$_GET['p']]['controller']);
+    } else {
+        throw new Exception('add routing config for '.$page.' in routing.yml');
+    }
+
     echo $controller_class.'<BR>';
     $controller = new $controller_class();
 
@@ -31,8 +44,16 @@ if(isset($_GET['p'])) {
 //$response can be an object
     $response = $controller->$action_name($request);
     var_dump($response);
+
+
+if(isset($response['redirect_to'])){  /** Test Redirection */
+    header('Location: '.$reponse['redirect_to']);
+    exit;
+} elseif (!empty($response['view'])) {
     /**
      * Use Twig !
      */
-    require $response['view'];
+    require __DIR__ . '/../src/' . $response['view'];
+} else {
+    throw new Exception('your action "'.$page.'" do not return a correct response array, should have "view" or "redirect_to"');
 }

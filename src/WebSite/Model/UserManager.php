@@ -11,37 +11,48 @@ class UserManager{
     function __construct($param){
         $this->bdd = $param;
     }
-    function listUsers($request){
-        $statement = $this->bdd->prepare('SELECT * FROM Users');
+    function listUsers(){
+
+        $sql = 'SELECT *
+                FROM Users';
+
+        $statement = $this->bdd->prepare($sql);
         $statement->execute();
         return $statement->fetchAll();
     }
-    function showUser($request){
-        $statement = $this->bdd->prepare('SELECT * FROM Users WHERE id = :id');
+    function showUser($id){
+
+        $sql = 'SELECT *
+                FROM Users
+                WHERE id = :id';
+
+        $statement = $this->bdd->prepare($sql);
         $statement->execute([
-            'id' => $request['session']['id']
+            'id' => $id
         ]);
         return $statement->fetch();
     }
-    function addUser($request){
-        $statement = $this->bdd->prepare("INSERT INTO Users (name, password, email) VALUES (:name, :password, :email)");
+    function addUser($name, $pass, $email){
+        $sql = 'INSERT INTO Users (name, password, email)
+                VALUES (:name, :password, :email)';
+        $statement = $this->bdd->prepare($sql);
         $statement->execute([
-            'name' => $request['request']['name'],
-            'password' => sha1($request['request']['password']),
-            'email' => $request['request']['id']
+            'name' => $name,
+            'password' => sha1($pass),
+            'email' => $email
         ]);
     }
-    function deleteUser($request){
-        $statement = $this->bdd->prepare("DELETE FROM Users WHERE name = :name");
-        $statement->execute([
-            'name' => $request['request']['name']
-        ]);
+    function deleteUser($name){
+        $this->bdd->delete('user', array('name' => $name));
     }
-    function logUser($request){
-        $request = $this->bdd->prepare('SELECT id,name ,password FROM users WHERE name = :name AND password = :password');
+    function logUser($name, $pass){
+        $sql = 'SELECT id,name ,password
+                FROM users
+                WHERE name = :name AND password = :password';
+        $request = $this->bdd->prepare($sql);
         $request->execute([
-            "name" => $request['request']['name'],
-            "password" => sha1($request['request']['password'])
+            "name" => $name,
+            "password" => sha1($pass)
         ]);
         return $request->fetch();
     }

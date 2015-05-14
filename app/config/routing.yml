@@ -1,5 +1,5 @@
 user_list:
-  controller: WebSite\Controller\UserController:listUserAction
+  controller: WebSite\Controller\UserController:listUsersAction
 
 user_show:
   controller: WebSite\Controller\UserController:showUserAction
@@ -15,3 +15,6 @@ user_log:
 
 user_logOut:
   controller: WebSite\Controller\UserController:logOutAction
+
+home:
+  controller: WebSite\Controller\HomeController:showHomeAction
