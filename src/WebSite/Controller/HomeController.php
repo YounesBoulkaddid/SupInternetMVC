@@ -6,7 +6,6 @@
  * Time: 23:40
  */
 namespace Website\Controller;
-use Website\Model\UserManager;
 
 class HomeController extends AbstractBaseController{
 

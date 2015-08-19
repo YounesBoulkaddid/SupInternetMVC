@@ -39,7 +39,7 @@ class ProductManager
         return $statement->fetch();
     }
 
-    function addProduct($name, $detail, $email)
+    function addProduct($name, $detail)
     {
         $sql = 'INSERT INTO Products (name, details)
                 VALUES (:name, :details)';

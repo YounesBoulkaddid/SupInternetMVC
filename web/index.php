@@ -47,7 +47,7 @@ use Symfony\Component\Yaml\Yaml;
 
 
 if(isset($response['redirect_to'])){  /** Test Redirection */
-    header('Location: '.$reponse['redirect_to']);
+    header('Location: '.$response['redirect_to']);
     exit;
 } elseif (!empty($response['view'])) {
     /**

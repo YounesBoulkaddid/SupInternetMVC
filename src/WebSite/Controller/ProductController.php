@@ -15,11 +15,11 @@ class ProductController extends AbstractBaseController
     {
 
         $productManager = new ProductManager($this->getConnection());
-        $product = $productManager->ListProducts();
+        $products = $productManager->ListProducts();
 
         return [
             'view' => '../src/WebSite/View/product/listProducts.html.php',
-            'product' => $product
+            'products' => $products
         ];
     }
 
@@ -38,7 +38,7 @@ class ProductController extends AbstractBaseController
     {
         if ($request['request']) {
             $productManager = new ProductManager($this->getConnection());
-            $productManager->showProduct($request['request']['name'],$request['request']['password'], $request['request']['email'] );
+            $productManager->addProduct($request['request']['name'],$request['request']['details']);
             return [
                 'redirect_to' => 'index.php?p=product_list',
             ];
